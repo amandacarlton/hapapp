@@ -1,0 +1,63 @@
+extends layout
+
+block content
+  h1= title
+  div.back
+    form(action="/new", method="post")
+      select(id="rating" name="rating")
+        option(value="") Rating
+        option(value="5") 5
+        option(value="4.5") 4.5
+        option(value="4") 4
+        option(value="3.5") 3.5
+        option(value="3") 3
+        option(value="2.5") 2.5
+      select(id="neighborhood" name="neighborhood")
+        option(value="") Neighborhoods
+        option(value="Northeast") Northeast
+        option(value="Southeast") Southeast
+        option(value="Northwest") Northwest
+        option(value="Southwest") Southwest
+        option(value="Highland")  Highland
+        option(value="CBD") CBD
+        option(value="Curtis Park") Curtis Park
+        option(value="Cherry Creek") Cherry Creek
+        option(value="Lodo") Lodo
+        option(value="Five Points") Five Points
+        option(value="University") University
+        option(value="Speer") Speer
+        option(value="Capitol Hill") Capitol Hill
+        option(value="Park Hill") Park Hill
+        option(value="Lincoln Park") Lincoln Park
+        option(value="Golden Triangle") Golden Triangle
+        option(value="City Park") City Park
+        option(value="Uptown") Uptown
+      input(type="submit" value="Find Bars")
+    //- for item in allbars
+    //-  div
+    //-   a(href="/bars/"+ item._id) 
+    //-     p= item.name
+    //-   p= item.location.neighborhoods
+    //-   p= item.rating
+    form(action="", method="post")
+     div.accounts
+       div.create
+        h1 Create an Account
+        p
+        label(for="createEmail") Email: 
+        input(type="text" name="createEmail" id="createEmail")
+        p
+        label(for="createPass") Password: 
+        input(type="text" name="createPass" id="createPass")
+        p
+        input(type="submit" value="Create Account")
+       div.login
+        h1 Login to Account
+        p
+        label(for="createEmail") Email: 
+        input(type="text" name="createEmail" id="createEmail")
+        p
+        label(for="createPass") Password: 
+        input(type="text" name="createPass" id="createPass")
+        p
+        input(type="submit" value="Login")

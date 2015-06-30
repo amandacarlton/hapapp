@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 Rating
+   =bar.rating
+  for item in bar
+    a(href="/bars/"+ item._id) 
+      p= item.name
+  

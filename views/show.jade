@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  h1
+    a(href=bar.url) 
+     p= title
+  
+  p 
+  Strong Rating: 
+  = bar.rating
+  p 
+  Strong Address: 
+  p= bar.location.address
+  p= bar.location.city
+     &nbsp
+     =bar.location.state_code
+     &nbsp
+     =bar.location.postal_code
+  p 
+  Strong Neighborhoods: 
+  = bar.location.neighborhoods
+  div#map-canvas
+  -var long=Number(bar.location.coordinate.longitude)
+  -var lat=Number(bar.location.coordinate.latitude)
+  -var key= api
+  iframe(width='600', height='450', frameborder='0', style='border:0', src='https://www.google.com/maps/embed/v1/place?key='+key+'\
+  &q='+ lat +'%2C%20'+ long, allowfullscreen='')
+
+  //- form(action="/bars/"+ bar._id, method="post")
+  //-  div
+  //-   label(for="hhurl") URL: 
+  //-   input(type="text" name="hhurl" id="hhurl")
+  //-  div
+  //-   label(for="hhmenu") Descript
+  //-   textarea(id="hhmenu" name="hhmenu")
+  //-  div
+  //-  label(for="stime") start
+  //-  input(type="time" id="stime" name="stime")
+  //-  label(for="etime") end
+  //-  input(type="time" id="etime" name="etime")
+  //-  div
+  //-   input(type="submit" value="submit")
