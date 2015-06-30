@@ -33,35 +33,8 @@ block content
         option(value="City Park") City Park
         option(value="Uptown") Uptown
       input(type="submit" value="Find Bars")
-    //- for item in allbars
-    //-  div
-    //-   a(href="/bars/"+ item._id) 
-    //-     p= item.name
-    //-   p= item.location.neighborhoods
-    //-   p= item.rating
-    
-  div.accounts
-    form(action="/signup", method="post")
-     div.create
-      h1 Create an Account
-      p
-      label(for="createEmail") Email: 
-      input(type="text" name="createEmail" id="createEmail")
-      p
-      label(for="createPass") Password: 
-      input(type="password" name="createPass" id="createPass")
-      p
-      input(type="submit" value="Create Account")
-    form(action="/login", method="post")
-     div.login
-      h1 Login to Account
-      p
-      label(for="loginEmail") Email: 
-      input(type="text" name="loginEmail" id="loginEmail")
-      p= message
-      p
-      label(for="loginPass") Password: 
-      input(type="password" name="loginPass" id="loginPass")
-      p= statement
-      p
-      input(type="submit" value="Login")
+  div.welcome
+    img(src="http://38.media.tumblr.com/666921068e9fcf1629f5bbd4175c91c8/tumblr_mmkhwjOkLz1sqyl32o1_400.gif" alt="welcome" )
+  div.logout
+    form(action="/logout", method="post")
+     input(type="submit" value="logout")

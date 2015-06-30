@@ -52,3 +52,18 @@ h1{
 option{
   font-size:30pt;
 }
+
+.welcome{
+  display: inline-block;
+  padding:10px;
+  position:absolute;
+   top:10px;
+   right:10px;
+}
+
+.logout{
+  padding:10px;
+  position:absolute;
+   top:10px;
+   left:10px
+}
