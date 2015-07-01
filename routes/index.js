@@ -8,7 +8,7 @@ var yelp = require("yelp").createClient({
   token: process.env.oauth_token,
   token_secret: process.env.tokenSecret,
 });
-
+var itunes=require("itunes-search");
 var hhdb = require('monk')(process.env.MONGOLAB_URI || process.env.bar_List || process.env.user);
 var userdb= require('monk')(process.env.MONGOLAB_URI || process.env.user);
 var hhCollection = hhdb.get('hh');
@@ -16,7 +16,18 @@ var userCollection = userdb.get('user');
 
 //var GoogleMapsLoader = require('google-maps');
 
-router.get('/', function(req, res, next){
+ router.get('/', function(req, res, next){
+// //   var options = {
+// //     media: "music"
+// //   , entity: "music"
+// //   , limit: 25
+// // };
+//
+// itunes.search( "kanye",
+// function(response) {
+//   console.log(response);
+// });
+
   hhCollection.find({},function(err, data){
     //for(var offset=20; offset=400; offset+20){
       // yelp.search({term: "happy hour", location: "denver"}, function(error, data) {
@@ -104,6 +115,23 @@ router.post('/login', function(req, res, next){
 
 });
 });
+
+// router.post("/itunes", function(req, res, next){
+//   var options = {
+//     media: "music"
+//   , entity: "music"
+//   , limit: 25
+// };
+//
+// itunes.search( "kanye", options,
+// function(response) {
+//   console.log(response);
+//   res.render("show");
+// });
+// });
+// router.post("/logout", function(req, res, next){
+//   res.redirect
+// }
 
 
 

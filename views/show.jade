@@ -26,6 +26,11 @@ block content
   iframe(width='600', height='450', frameborder='0', style='border:0', src='https://www.google.com/maps/embed/v1/place?key='+key+'\
   &q='+ lat +'%2C%20'+ long, allowfullscreen='')
 
+  form(action="/itunes", method="post")
+   label(for="music") Music Search: 
+   input(type="text" id="music" name="music")
+   p
+   input(type="submit" value="music search")
   //- form(action="/bars/"+ bar._id, method="post")
   //-  div
   //-   label(for="hhurl") URL: 
