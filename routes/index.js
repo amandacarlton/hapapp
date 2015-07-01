@@ -81,27 +81,38 @@ router.post("/bars/new", function(req, res, next){
 // });
 //
 router.get("/signup", function(req, res, next){
-  res.render("signup", {Success: "You have successfully created an account!"});
+  var person= req.cookies.currentuser;
+  res.render("signup", {Success: "You have successfully created an account!", person:person});
 });
 
 router.post('/signup', function(req, res, next) {
+  res.cookie('currentuser', req.body.createfName);
   var hash = bcrypt.hashSync(req.body.createPass, 8);
-  userCollection.insert({ email: req.body.createEmail, password: hash});
+  userCollection.insert({ email: req.body.createEmail, password: hash, firstname: req.body.createfName, lastname: req.body.createlName});
   res.redirect('/signup');
 });
 
 router.get('/login', function(req, res, next){
-  res.render("login");
+  console.log(req.cookies.currentuser);
+  if(req.cookies.currentuser){
+  var fname= req.cookies.currentuser;
+  res.render("login", {name:fname});
+}else if(req.cookies.currentuser === "undefined"){
+  res.direct("/");
+}
  });
 
 router.post('/login', function(req, res, next){
   userCollection.findOne({email:req.body.loginEmail}, function(err, data){
   if(data){
-  var compare=data.password;
+  var compare= data.password;
+  var name= data.firstname;
   console.log(data.password);
+  console.log(name)
   console.log(req.body.loginPass);
   var statement;
   if (bcrypt.compareSync(req.body.loginPass, compare)){
+    res.cookie('currentuser', name);
     res.redirect("/login");
   }else{
     statement="Password does not match";

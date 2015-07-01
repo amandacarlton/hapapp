@@ -2,7 +2,6 @@ extends layout
 
 block content
   h1= title
-  h1 hi
   div.back
     form(action="/bars/new", method="post")
       select.rating(id="rating" name="rating")
@@ -46,13 +45,20 @@ block content
      div.create
       h1 Create an Account
       p
-      label(for="createEmail") Email: 
-      input(type="text" name="createEmail" id="createEmail")
+        label(for="createfName") First Name: 
+        input(type="text" name="createfName" id="createfName")
       p
-      label(for="createPass") Password: 
-      input(type="password" name="createPass" id="createPass")
+        label(for="createlName") Last Name:
+        input(type="text" name="createlName" id="createlName")
       p
-      input(type="submit" value="Create Account")
+        label(for="createEmail") Email: 
+        input(type="text" name="createEmail" id="createEmail")
+      p
+        label(for="createPass") Password: 
+        input(type="password" name="createPass" id="createPass")
+      p
+        input(type="submit" value="Create Account")
+      
     form(action="/login", method="post")
      div.login
       h1 Login to Account
