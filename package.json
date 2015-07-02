@@ -13,6 +13,7 @@
     "dotenv": "^1.2.0",
     "express": "~4.12.4",
     "jade": "~1.9.2",
+    "jsonparse": "^1.0.0",
     "lodash-node": "^3.9.3",
     "monk": "^1.0.1",
     "morgan": "~1.5.3",
