@@ -23,5 +23,8 @@
     "serve-favicon": "~2.2.1",
     "unirest": "^0.4.2",
     "yelp": "^0.2.0"
-  }
+  },
+  "engines": {
+      "node": "0.6.x"
+    }
 }
