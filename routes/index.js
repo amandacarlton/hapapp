@@ -129,6 +129,7 @@ unirest.post('https://itunes.apple.com/search?term='+req.body.music+'&limit='+re
 var data= JSON.parse(response.body);
 //console.log(response.body);
 //console.log(data);
+console.log(data);
 res.render('show', {response:data.results, bar:bar, api:process.env.google_Key});
 });
 

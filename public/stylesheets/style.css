@@ -84,6 +84,9 @@ option{
     background: bisque;
     padding: 20px;
     width: 150px;
-    height: 150px;
+    height: 200px;
     border: 1px solid black;
+    overflow: auto;
+    align-content: center;
+
 }
