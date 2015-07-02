@@ -35,26 +35,27 @@ block content
      p
      input#button(type="submit" value="music search")
   div.results
-    h1 What song you would you like played?
-    form(action="/vote", method="post")
-      for item in response
-       div.track
-        div.img
-         img(src=item.artworkUrl100 alt="trackpic")
-        div.url
-          a(href=item.previewUrl)
-           p=item.trackName
-        div.select
-         label(for="select") Select 
-         p
-         input(type="radio" name="select" id="select" value=item.trackName)
-      p
-      input(type="hidden" name=bar.name)
-      p
-      label(for="date") Date: 
-      input(type="date" name="date" id="date")
-      p
-      input(type="submit" name="vote" value="Add song to playlist")
+   p=response[0].trackName
+    //- h1 What song you would you like played?
+    //- form(action="/vote", method="post")
+    //-   for item in response
+    //-    div.track
+    //-     div.img
+    //-      img(src=item.artworkUrl100 alt="trackpic")
+    //-     div.url
+    //-       a(href=item.previewUrl)
+    //-        p=item.trackName
+    //-     div.select
+    //-      label(for="select") Select 
+    //-      p
+    //-      input(type="radio" name="select" id="select" value=item.trackName)
+    //-   p
+    //-   input(type="hidden" name=bar.name)
+    //-   p
+    //-   label(for="date") Date: 
+    //-   input(type="date" name="date" id="date")
+    //-   p
+    //-   input(type="submit" name="vote" value="Add song to playlist")
        
       
   //- div.results
