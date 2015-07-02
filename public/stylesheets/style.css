@@ -15,8 +15,13 @@ body {
   background-size: cover;
   text-align: center;
   font-family: Verdana;
+
+
 }
 
+url{
+  opacity: .5;
+}
 h1{
   color: Green;
 }
@@ -43,10 +48,12 @@ h1{
   display: inline-block;
   padding:20px;
   position:absolute;
-   top:275px;
+   top:300px;
    right:10px;
   color: white;
-  width:300px
+  width:300px;
+
+
 }
 
 option{
@@ -70,4 +77,13 @@ option{
 
 .hello{
   color:white;
+}
+
+.track{
+  border-radius: 25px;
+    background: bisque;
+    padding: 20px;
+    width: 150px;
+    height: 150px;
+    border: 1px solid black;
 }

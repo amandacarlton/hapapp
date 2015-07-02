@@ -1,0 +1,10 @@
+extends layout
+
+block content
+ h1 What song you would you like played?
+ for item in response
+  div
+   p=item.artistName
+   a(href=item.previewUrl)
+    p=item.trackName
+     

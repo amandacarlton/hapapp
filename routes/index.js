@@ -50,8 +50,6 @@ router.get('/bars/:id', function(req,res,next){
 
 router.post("/bars/new", function(req, res, next){
   var rating=Number(req.body.rating);
-  console.log(req.body.neighborhood);
-  console.log(rating);
   if(req.body.rating.length>0 && req.body.neighborhood.length>0){
     hhCollection.find({rating:rating, "location.neighborhoods":req.body.neighborhood}, function(err, bar){
       res.render("new",{bar:bar});
@@ -93,7 +91,6 @@ router.post('/signup', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next){
-  console.log(req.cookies.currentuser);
   if(req.cookies.currentuser){
   var fname= req.cookies.currentuser;
   res.render("login", {name:fname});
@@ -107,9 +104,6 @@ router.post('/login', function(req, res, next){
   if(data){
   var compare= data.password;
   var name= data.firstname;
-  console.log(data.password);
-  console.log(name)
-  console.log(req.body.loginPass);
   var statement;
   if (bcrypt.compareSync(req.body.loginPass, compare)){
     res.cookie('currentuser', name);
@@ -123,6 +117,21 @@ router.post('/login', function(req, res, next){
    var message="Email does not exist";
    res.render("index", {message:message, title:"All the Bars"});
  }
+
+});
+});
+
+
+router.post("/itunes/:id", function(req, res, next){
+hhCollection.findOne({_id:req.params.id}, function(err,bar){
+unirest.post('https://itunes.apple.com/search?term='+req.body.music+'&limit='+req.body.limit)
+.end(function (response) {
+var data= JSON.parse(response.body);
+//console.log(response.body);
+//console.log(data);
+res.render('show', {response:data.results, bar:bar, api:process.env.google_Key});
+});
+
 
 });
 });
