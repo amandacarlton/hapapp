@@ -11,8 +11,10 @@ var yelp = require("yelp").createClient({
 //var itunes=require("itunes-search");
 var hhdb = require('monk')(process.env.MONGOLAB_URI || process.env.bar_List || process.env.user);
 var userdb= require('monk')(process.env.MONGOLAB_URI || process.env.user);
+var itunesdb= require('monk')(process.env.MONGOLAB_URI || 'localhost/itunes');
 var hhCollection = hhdb.get('hh');
 var userCollection = userdb.get('user');
+var itunesCollection= itunesdb.get('track');
 
 //var GoogleMapsLoader = require('google-maps');
 
@@ -124,17 +126,44 @@ router.post('/login', function(req, res, next){
 
 router.post("/itunes/:id", function(req, res, next){
 hhCollection.findOne({_id:req.params.id}, function(err,bar){
+var name= req.cookies.currentuser;
+console.log(name);
+userCollection.findOne({firstname:name}, function(err, user){
+console.log(user);
 unirest.post('https://itunes.apple.com/search?term='+req.body.music+'&limit='+req.body.limit)
 .end(function (response) {
 var data= JSON.parse(response.body);
 //console.log(response.body);
 //console.log(data);
-res.render('show', {response:data.results, bar:bar, api:process.env.google_Key});
+console.log(user);
+res.render('show', {response:data.results, bar:bar, user:user, api:process.env.google_Key});
+});
+
+});
+});
+});
+
+router.post("/vote", function(req, res, next){
+itunesCollection.insert({ userid: req.body.userid, bar: req.body.barname, date: req.body.date, trackName: req.body.trackName});
+var tracks=[];
+itunesCollection.find({bar:req.body.barname, date:req.body.date}, function(err, data){
+console.log(data);
+
+// for(var i=0; i<data.length; i++){
+// console.log(data.bar);
+// tracks.push(data[i].trackName);
+var result = {};
+for(var i=0; i<data.length; i++) {
+  result[data[i].trackName] = result[data[i].trackName] || 0;
+  result[data[i].trackName] += 1;
+console.log(result);
+console.log(data.length);
+}
+res.redirect('/login');
+});
 });
 
 
-});
-});
 
 // router.post("/itunes", function(req, res, next){
 //   var options = {

@@ -4,7 +4,7 @@ block content
   h1
     a(href=bar.url) 
      p= title
-    
+  
   p 
   Strong Rating: 
   = bar.rating
@@ -36,8 +36,11 @@ block content
      input#button(type="submit" value="music search")
   div.results
    if(response)
+    
     h1 What song you would you like played?
+    
     form(action="/vote", method="post")
+     
       for item in response
        div.track
         div.img
@@ -48,9 +51,11 @@ block content
         div.select
          label(for="select") Select 
          p
-         input(type="radio" name="select" id="select" value=item.trackName)
+         input(type="radio" name='trackName' id="select" value=item.trackName)
       p
-      input(type="hidden" name=bar.name)
+      input(type="hidden" name='barname' value=bar.name)
+      p
+      input(type="hidden" name="userid" value=user._id)
       p
       label(for="date") Date: 
       input(type="date" name="date" id="date")
