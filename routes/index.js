@@ -9,14 +9,15 @@ var yelp = require("yelp").createClient({
   token_secret: process.env.tokenSecret,
 });
 //var itunes=require("itunes-search");
-var hhdb = require('monk')(process.env.MONGOLAB_URI || process.env.bar_List || process.env.user);
-var userdb= require('monk')(process.env.MONGOLAB_URI || process.env.user);
+var hhdb = require('monk')(process.env.MONGOLAB_URI || process.env.bar_List);
+var userdb= require('monk')(process.env.MONGOLAB_URI || "localhost/hhuserslist");
 var itunesdb= require('monk')(process.env.MONGOLAB_URI || 'localhost/itunes');
 var favdb= require('monk')(process.env.MONGOLAB_URI || 'localhost/fav');
 var hhCollection = hhdb.get('hh');
 var userCollection = userdb.get('user');
 var itunesCollection= itunesdb.get('track');
 var favCollection= favdb.get('fav');
+var validator= require('../lib/validations.js');
 //var GoogleMapsLoader = require('google-maps');
 
 router.get('/', function(req, res, next){
@@ -50,6 +51,7 @@ router.get('/bars/:id', function(req,res,next){
     var name= req.cookies.currentuser;
     console.log(name);
     userCollection.findOne({firstname:name}, function(err, user){
+    console.log(user)
     res.render('show',{bar:bar, user:user, title:bar.name, api:process.env.google_Key});
   });
 });
@@ -89,26 +91,40 @@ router.post("/bars/new", function(req, res, next){
 // });
 //
 router.get("/signup", function(req, res, next){
+  if(req.cookies.currentuser){
   var person= req.cookies.currentuser;
   res.render("signup", {Success: "You have successfully created an account!", person:person});
+}else if(req.cookies.currentuser === "undefined"){
+  res.redirect("/");
+}
 });
 
 router.post('/signup', function(req, res, next) {
+  userCollection.find({}, function(err, info){
+  var input= req.body;
+  var errorlist=(validator.create(input.createfName, input.createlName, input.createEmail, input.createPass, info));
+  if(errorlist.length >0){
+  res.render('index', {errorlist:errorlist});
+}else{
   res.cookie('currentuser', req.body.createfName);
   var hash = bcrypt.hashSync(req.body.createPass, 8);
-  userCollection.insert({ email: req.body.createEmail, password: hash, firstname: req.body.createfName, lastname: req.body.createlName});
+  userCollection.insert({ email: req.body.createEmail, password: hash, firstname: req.body.createfName, lastname: req.body.createlName}, function(err, data){
   res.redirect('/signup');
 });
+}
+});
+});
+
 
 router.get('/login', function(req, res, next){
   if(req.cookies.currentuser){
     var name= req.cookies.currentuser;
   favCollection.find({username:name}, function(err, data){
     console.log(data);
-    res.render("login", {name:name, opinion:data})
+    res.render("login", {name:name, opinion:data});
   });
   }else if(req.cookies.currentuser === "undefined"){
-    res.direct("/");
+    res.redirect("/");
   }
 });
 

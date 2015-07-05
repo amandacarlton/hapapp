@@ -44,9 +44,14 @@ block content
     //-   p= item.location.neighborhoods
     //-   p= item.rating
     
-  div.accounts
+  
     form(action="/signup", method="post")
      div.create
+      if (errorlist)
+       div.red
+        ul 
+         for item in errorlist
+          li= item
       h1 Create an Account
       p
         label(for="createfName") First Name: 
