@@ -4,3 +4,7 @@ block content
  h1= Success
  p.hello Hello, 
   =person
+ div.logout
+  if(user)  
+    form(action="/logout", method="post")
+     input(type="submit" value="logout")

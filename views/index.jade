@@ -1,9 +1,11 @@
 extends layout
 
 block content
+  div.title
   h1= title
   div.back
     form(action="/bars/new", method="post")
+     div.select
       select.rating(id="rating" name="rating")
         option(value="") Rating
         option(value="5") 5
@@ -12,6 +14,7 @@ block content
         option(value="3.5") 3.5
         option(value="3") 3
         option(value="2.5") 2.5
+      p
       select.rating(id="neighborhood" name="neighborhood")
         option(value="") Neighborhoods
         option(value="Northeast") Northeast
@@ -32,6 +35,7 @@ block content
         option(value="Golden Triangle") Golden Triangle
         option(value="City Park") City Park
         option(value="Uptown") Uptown
+      p
       input(type="submit" value="Find Bars")
     //- for item in allbars
     //-  div
@@ -57,7 +61,7 @@ block content
         label(for="createPass") Password: 
         input(type="password" name="createPass" id="createPass")
       p
-        input(type="submit" value="Create Account")
+        input.createbutton(type="submit" value="Create Account")
       
     form(action="/login", method="post")
      div.login

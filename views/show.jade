@@ -1,54 +1,59 @@
 extends layout
 
 block content
-  h1
-    a(href=bar.url) 
-     p= title
+ div.content
+  div.info
+    h1
+      a(href=bar.url) 
+       p= title
   
-  p 
-  Strong Rating: 
-  = bar.rating
-  p 
-  Strong Address: 
-  p= bar.location.address
-  p= bar.location.city
-     &nbsp
-     =bar.location.state_code
-     &nbsp
-     =bar.location.postal_code
-  p 
-  Strong Neighborhoods: 
-  = bar.location.neighborhoods
-  div#map-canvas
+  
+    p 
+    Strong Rating: 
+    = bar.rating 
+    p
+    Strong Address: 
+    p= bar.location.address
+    p= bar.location.city
+       &nbsp
+       =bar.location.state_code
+       &nbsp
+       =bar.location.postal_code
+    p 
+    Strong Neighborhood: 
+    = bar.location.neighborhoods
+  div.map
   -var long=Number(bar.location.coordinate.longitude)
   -var lat=Number(bar.location.coordinate.latitude)
-  -var key= api
-  iframe(width='600', height='450', frameborder='0', style='border:0', src='https://www.google.com/maps/embed/v1/place?key='+key+'\
-  &q='+ lat +'%2C%20'+ long, allowfullscreen='')
-
+  -var key= api 
+    iframe(width='450', height='300', frameborder='5', style='border:0', src='https://www.google.com/maps/embed/v1/place?key='+key+'\
+    &q='+ lat +'%2C%20'+ long, allowfullscreen='')
+    
+ div.logout 
+   form(action="/logout", method="post")
+    input(type="submit" value="logout")
+ div.entertainment  
   div.music
+    h1 Vote on a Song for the Playlist!
     form(action="/itunes/"+ bar._id, method="post")
      label(for="music") Music Search: 
      input(type="text" id="music" name="music")
-     label(for="limit") Amount returned: 
+     p
+     label(for="limit") Amount Returned: 
      input(type="number" id="limit" name="limit" max=20)
      p
-     input#button(type="submit" value="music search")
+     input#button(type="submit" value="Music Search")
+  
+
   div.results
    if(response)
-    
-    h1 What song you would you like played?
-    
-    form(action="/vote", method="post")
-     
+    form(action="/vote/" +bar._id, method="post")
       for item in response
        div.track
         div.img
          img(src=item.artworkUrl100 alt="trackpic")
-        div.url
-          a(href=item.previewUrl)
+         a(href=item.previewUrl)
            p=item.trackName
-        div.select
          label(for="select") Select 
          p
          input(type="radio" name='trackName' id="select" value=item.trackName)
@@ -61,7 +66,14 @@ block content
       input(type="date" name="date" id="date")
       p
       input(type="submit" name="vote" value="Add song to playlist")
-       
+  div.vote
+    if(vote)
+      h1 Playlist Standings
+      ul
+       -var index=0
+       for item, key in vote
+        li(id="item-#{index++}") #{key}: #{item}
+  //-       
       
   //- div.results
   //-  h1 What song you would you like played?

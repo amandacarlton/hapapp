@@ -12,32 +12,33 @@ var yelp = require("yelp").createClient({
 var hhdb = require('monk')(process.env.MONGOLAB_URI || process.env.bar_List || process.env.user);
 var userdb= require('monk')(process.env.MONGOLAB_URI || process.env.user);
 var itunesdb= require('monk')(process.env.MONGOLAB_URI || 'localhost/itunes');
+var favdb= require('monk')(process.env.MONGOLAB_URI || 'localhost/fav');
 var hhCollection = hhdb.get('hh');
 var userCollection = userdb.get('user');
 var itunesCollection= itunesdb.get('track');
-
+var favCollection= favdb.get('fav');
 //var GoogleMapsLoader = require('google-maps');
 
- router.get('/', function(req, res, next){
-// //   var options = {
-// //     media: "music"
-// //   , entity: "music"
-// //   , limit: 25
-// // };
-//
-// itunes.search( "kanye",
-// function(response) {
-//   console.log(response);
-// });
+router.get('/', function(req, res, next){
+  // //   var options = {
+  // //     media: "music"
+  // //   , entity: "music"
+  // //   , limit: 25
+  // // };
+  //
+  // itunes.search( "kanye",
+  // function(response) {
+  //   console.log(response);
+  // });
 
   hhCollection.find({},function(err, data){
     //for(var offset=20; offset=400; offset+20){
-      // yelp.search({term: "happy hour", location: "denver"}, function(error, data) {
-      //   console.log(error);
-      //   console.log(data.businesses);
-      //
-      //   hhCollection.insert(data.businesses);
-      // });
+    // yelp.search({term: "happy hour", location: "denver"}, function(error, data) {
+    //   console.log(error);
+    //   console.log(data.businesses);
+    //
+    //   hhCollection.insert(data.businesses);
+    // });
     //}
     //console.log(data)*/
     res.render('index', {allbars: data, title: "All the Bars"});
@@ -46,15 +47,22 @@ var itunesCollection= itunesdb.get('track');
 
 router.get('/bars/:id', function(req,res,next){
   hhCollection.findOne({_id:req.params.id}, function(err,bar){
-    res.render('show',{bar:bar, title:bar.name, api:process.env.google_Key});
+    var name= req.cookies.currentuser;
+    console.log(name);
+    userCollection.findOne({firstname:name}, function(err, user){
+    res.render('show',{bar:bar, user:user, title:bar.name, api:process.env.google_Key});
   });
 });
+});
+
 
 router.post("/bars/new", function(req, res, next){
-  var rating=Number(req.body.rating);
+ var rating=Number(req.body.rating);
   if(req.body.rating.length>0 && req.body.neighborhood.length>0){
     hhCollection.find({rating:rating, "location.neighborhoods":req.body.neighborhood}, function(err, bar){
-      res.render("new",{bar:bar});
+      console.log(bar);
+      console.log(rating);
+      res.render("new",{bar:bar, rating:rating, neighborhood:req.body.neighborhood});
 
     });
 
@@ -62,12 +70,12 @@ router.post("/bars/new", function(req, res, next){
     hhCollection.find({"location.neighborhoods":req.body.neighborhood}, function(err, bar){
 
 
-      res.render("new",{bar:bar});
+      res.render("new",{bar:bar, rating:rating, neighborhood:req.body.neighborhood});
     });
 
   }else{//(rating>0 && req.body.neighborhood.length<0){
     hhCollection.find({rating:rating}, function(err, bar){
-      res.render("new", {bar:bar});
+      res.render("new", {bar:bar, rating:rating, neighborhood:req.body.neighborhood});
     });
   }
 
@@ -94,75 +102,96 @@ router.post('/signup', function(req, res, next) {
 
 router.get('/login', function(req, res, next){
   if(req.cookies.currentuser){
-  var fname= req.cookies.currentuser;
-  res.render("login", {name:fname});
-}else if(req.cookies.currentuser === "undefined"){
-  res.direct("/");
-}
- });
+    var name= req.cookies.currentuser;
+  favCollection.find({username:name}, function(err, data){
+    console.log(data);
+    res.render("login", {name:name, opinion:data})
+  });
+  }else if(req.cookies.currentuser === "undefined"){
+    res.direct("/");
+  }
+});
+
 
 router.post('/login', function(req, res, next){
   userCollection.findOne({email:req.body.loginEmail}, function(err, data){
-  if(data){
-  var compare= data.password;
-  var name= data.firstname;
-  var statement;
-  if (bcrypt.compareSync(req.body.loginPass, compare)){
-    res.cookie('currentuser', name);
-    res.redirect("/login");
-  }else{
-    statement="Password does not match";
-    res.render("index", {statement:statement, title:"All the Bars"});
-  }
-}
- else{
-   var message="Email does not exist";
-   res.render("index", {message:message, title:"All the Bars"});
- }
+    if(data){
+      var compare= data.password;
+      var name= data.firstname;
+      var statement;
+      if (bcrypt.compareSync(req.body.loginPass, compare)){
+        res.cookie('currentuser', name);
+        res.redirect("/login");
+      }else{
+        statement="Password does not match";
+        res.render("index", {statement:statement, title:"All the Bars"});
+      }
+    }
+    else{
+      var message="Email does not exist";
+      res.render("index", {message:message, title:"All the Bars"});
+    }
 
-});
+  });
 });
 
 
 router.post("/itunes/:id", function(req, res, next){
-hhCollection.findOne({_id:req.params.id}, function(err,bar){
-var name= req.cookies.currentuser;
-console.log(name);
-userCollection.findOne({firstname:name}, function(err, user){
-console.log(user);
-unirest.post('https://itunes.apple.com/search?term='+req.body.music+'&limit='+req.body.limit)
-.end(function (response) {
-var data= JSON.parse(response.body);
-//console.log(response.body);
-//console.log(data);
-console.log(user);
-res.render('show', {response:data.results, bar:bar, user:user, api:process.env.google_Key});
+  hhCollection.findOne({_id:req.params.id}, function(err,bar){
+    var name= req.cookies.currentuser;
+    console.log(name);
+    userCollection.findOne({firstname:name}, function(err, user){
+      console.log(user);
+      unirest.post('https://itunes.apple.com/search?term='+req.body.music+'&limit='+req.body.limit)
+      .end(function (response) {
+        var data= JSON.parse(response.body);
+        //console.log(response.body);
+        //console.log(data);
+        res.render('show', {response:data.results, bar:bar, title:bar.name, user:user, api:process.env.google_Key});
+      });
+
+    });
+  });
 });
 
-});
-});
+router.post("/vote/:id", function(req, res, next){
+  hhCollection.findOne({_id:req.params.id}, function(err,bar){
+    var name= req.cookies.currentuser;
+    userCollection.findOne({firstname:name}, function(err, user){
+      unirest.post('https://itunes.apple.com/search?term='+req.body.music+'&limit='+req.body.limit)
+      .end(function (response) {
+        var data= JSON.parse(response.body);
+        itunesCollection.insert({ username: req.body.name, userid: req.body.userid, bar: req.body.barname, date: req.body.date, trackName: req.body.trackName});
+        itunesCollection.find({bar:req.body.barname, date:req.body.date}, function(err, data){
+          console.log(data);
+          var result = {};
+          for(var i=0; i<data.length; i++) {
+            result[data[i].trackName] = result[data[i].trackName] || 0;
+            result[data[i].trackName] += 1;
+            console.log(result);
+            console.log(data.length);
+          }
+          res.render('show', {vote:result, response:data.results, bar:bar, title:bar.name, user:user, api:process.env.google_Key});
+        });
+      });
+    });
+  });
 });
 
-router.post("/vote", function(req, res, next){
-itunesCollection.insert({ userid: req.body.userid, bar: req.body.barname, date: req.body.date, trackName: req.body.trackName});
-var tracks=[];
-itunesCollection.find({bar:req.body.barname, date:req.body.date}, function(err, data){
-console.log(data);
-
-// for(var i=0; i<data.length; i++){
-// console.log(data.bar);
-// tracks.push(data[i].trackName);
-var result = {};
-for(var i=0; i<data.length; i++) {
-  result[data[i].trackName] = result[data[i].trackName] || 0;
-  result[data[i].trackName] += 1;
-console.log(result);
-console.log(data.length);
-}
-res.redirect('/login');
-});
+router.post("/logout", function(req, res, next){
+  res.clearCookie('currentuser');
+  res.redirect("/");
 });
 
+router.post("/opinion", function(req, res, next){
+  var name= req.cookies.currentuser;
+  console.log(name)
+  userCollection.findOne({firstname:name}, function(err, user){
+    console.log(user)
+    favCollection.insert({user:req.body.userid, username:req.body.username, bar:req.body.barname, like:req.body.love, dislike:req.body.dislike});
+    res.redirect("/login")
+  });
+});
 
 
 // router.post("/itunes", function(req, res, next){

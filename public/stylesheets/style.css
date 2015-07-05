@@ -23,14 +23,10 @@ url{
   opacity: .5;
 }
 h1{
-  color: Green;
+  color: green;
 }
 
-.map-canvas{
-    width: 500px;
-    height: 400px;
-    background-color: #CCC;
-  }
+
 
 .create{
   border: 2px solid black;
@@ -41,6 +37,7 @@ h1{
    right:10px;
   color: white;
   width:300px;
+  background-color: rgba(0,0,0,.5);
 }
 
 .login{
@@ -52,6 +49,8 @@ h1{
    right:10px;
   color: white;
   width:300px;
+  background-color: rgba(0,0,0,.5);
+
 
 
 }
@@ -81,12 +80,150 @@ option{
 
 .track{
   border-radius: 25px;
-    background: bisque;
+    background-color: rgba(0,0,0,.5);
     padding: 20px;
     width: 150px;
     height: 200px;
     border: 1px solid black;
-    overflow: auto;
     align-content: center;
+    float: left;
+    margin-right: 10px;
+    margin top: 10px;
+    border: 2px solid green;
+}
+.love{
+  height:200px;
+  width:150px;
 
 }
+.fave{
+  display: inline-block;
+  padding:20px;
+  position:absolute;
+   top:100px;
+   right:50px;
+}
+
+.like{
+  float:left;
+  border: 2px solid black;
+  margin: 10px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.rating{
+    padding: 10px;
+    color: white;
+    font-size: 12px;
+    border: 2px solid black;
+    background: transparent;
+    -webkit-appearance: none;
+    margin:10px;
+    width:200px;
+    text-align: center;
+    float: left;
+    background-color: rgba(0,0,0,.5);
+
+}
+
+.select{
+  margin-top: 200px;
+}
+
+.create  label{
+  display: inline-block;
+  text-align: left;
+  width: 90px;
+}
+.create input{
+  margin-left: 10px;
+
+}
+
+.login label{
+  display: inline-block;
+  text-align: left;
+  width: 90px;
+}
+.login input{
+  margin-left: 10px;
+}
+
+.createbutton{
+  margin-top: 5px;
+}
+
+a{
+  color:white;
+  font-weight: bold;
+}
+a:hover{
+  color: #33CC00;
+}
+.new{
+  display: inline-block;
+  background-color: rgba(0,0,0,.5);
+  overflow: auto;
+  width: 300px;
+  border: 5px solid black;
+}
+.content{
+  float:left;
+
+}
+.info{
+  background-color: rgba(0,0,0,.5);
+  color: white;
+  width: 450px
+}
+
+.map{
+  background-color: rgba(0,0,0,.5);
+  margin-top: 20px;
+}
+
+.music{
+  display: inline-block;
+  margin-right: 50px;
+  background-color: rgba(0,0,0,.5);
+  color:white;
+}
+.music label{
+  display: inline-block;
+  text-align: left;
+  width: 150px;
+}
+.music input{
+  margin-left: 10px;
+}
+iframe{
+  border: 2px solid black;
+}
+
+.results{
+  margin-top: 10px;
+  margin margin-right: 10px;
+
+}
+.entertainment{
+  float: left;
+
+  margin-left: 10px;
+  width: 55%;
+}
+ul{
+    color: white;
+    list-style-type: none;
+}
+
+.vote{
+  background-color: rgba(0,0,0,.5);
+  display: inline block;
+  margin-top: 100px;
+}
+/*.title{
+  display: inline-block;
+  background-color: rgba(0,0,0,.5);
+
+}*/

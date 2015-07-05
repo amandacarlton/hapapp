@@ -1,9 +1,13 @@
 extends layout
 
 block content
-  h1 Rating
-   =bar.rating
-  for item in bar
-    a(href="/bars/"+ item._id) 
-      p= item.name
-  
+  h1 Bars in 
+    =neighborhood 
+     
+  div.new     
+    for item in bar
+      a.list(href="/bars/"+ item._id) 
+        p= item.name
+  div.logout 
+    form(action="/logout", method="post")
+     input(type="submit" value="logout")

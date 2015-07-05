@@ -40,3 +40,15 @@ block content
   div.logout
     form(action="/logout", method="post")
      input(type="submit" value="logout")
+  if(opinion)
+  div.opinion
+    div.like
+      h1 Favorite Bars
+      for item in opinion
+       if(item.like == "on")
+          p= item.bar
+    div.like
+      h1 Stay Away From
+      for item in opinion
+       if(item.dislike=="on")
+         p= item.bar
