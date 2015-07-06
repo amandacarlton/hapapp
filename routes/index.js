@@ -119,6 +119,7 @@ router.get('/login', function(req, res, next){
   if(req.cookies.currentuser){
     var name= req.cookies.currentuser;
   favCollection.find({username:name}, function(err, data){
+    console.log(data);
     res.render("login", {name:name, opinion:data});
   });
   }else if(req.cookies.currentuser === "undefined"){
@@ -196,6 +197,7 @@ router.post("/opinion", function(req, res, next){
   var name= req.cookies.currentuser;
   userCollection.findOne({firstname:name}, function(err, user){
     favCollection.insert({user:req.body.userid, username:req.body.username, bar:req.body.barname, like:req.body.love});
+    console.log(user);
     res.redirect("/login");
   });
 });
