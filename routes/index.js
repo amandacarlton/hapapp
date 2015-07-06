@@ -83,13 +83,13 @@ router.post("/bars/new", function(req, res, next){
 
 });
 
-// router.post('/bars/:id', function(req, res, next) {
-//   hhCollection.insert({_id: req.params.id},{ hhurl: req.body.hhurl, hhmenu: req.body.hhmenu , start: req.body.stime, end: req.body.etime},function(err,bar){
-//     res.redirect('/bars/'+ req.params.id);
-//
-//   });
-// });
-//
+router.post('/bars/:id', function(req, res, next) {
+  hhCollection.insert({_id: req.params.id},{ hhurl: req.body.hhurl, hhmenu: req.body.hhmenu , start: req.body.stime, end: req.body.etime},function(err,bar){
+    res.redirect('/bars/'+ req.params.id);
+
+  });
+});
+
 router.get("/signup", function(req, res, next){
   if(req.cookies.currentuser){
   var person= req.cookies.currentuser;
@@ -201,11 +201,11 @@ router.post("/logout", function(req, res, next){
 
 router.post("/opinion", function(req, res, next){
   var name= req.cookies.currentuser;
-  console.log(name)
+  console.log(name);
   userCollection.findOne({firstname:name}, function(err, user){
-    console.log(user)
+    console.log(user);
     favCollection.insert({user:req.body.userid, username:req.body.username, bar:req.body.barname, like:req.body.love, dislike:req.body.dislike});
-    res.redirect("/login")
+    res.redirect("/login");
   });
 });
 

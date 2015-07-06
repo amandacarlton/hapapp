@@ -13,6 +13,7 @@ block content
         option(value="3.5") 3.5
         option(value="3") 3
         option(value="2.5") 2.5
+      p
       select.rating(id="neighborhood" name="neighborhood")
         option(value="") Neighborhoods
         option(value="Northeast") Northeast
@@ -33,22 +34,24 @@ block content
         option(value="Golden Triangle") Golden Triangle
         option(value="City Park") City Park
         option(value="Uptown") Uptown
+      p
       input(type="submit" value="Find Bars")
   div.welcome
     img(src="http://38.media.tumblr.com/666921068e9fcf1629f5bbd4175c91c8/tumblr_mmkhwjOkLz1sqyl32o1_400.gif" alt="welcome" )
+    p
     p.hello= name
   div.logout
     form(action="/logout", method="post")
      input(type="submit" value="logout")
   if(opinion)
-  div.opinion
-    div.like
-      h1 Favorite Bars
-      for item in opinion
-       if(item.like == "on")
-          p= item.bar
-    div.like
-      h1 Stay Away From
-      for item in opinion
-       if(item.dislike=="on")
-         p= item.bar
+    div.opinion
+      div.like
+        h1 Favorite Bars
+        for item in opinion
+         if(item.like == "on")
+            p= item.bar
+      div.like.dont
+        h1 Stay Away From
+        for item in opinion
+         if(item.dislike=="on")
+           p= item.bar

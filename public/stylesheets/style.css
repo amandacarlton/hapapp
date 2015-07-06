@@ -76,6 +76,10 @@ option{
 
 .hello{
   color:white;
+  font-size: 30px;
+  background-color: rgba(0,0,0,.5);
+  display: inline-block;
+  padding: 10px;
 }
 
 .track{
@@ -92,9 +96,14 @@ option{
     border: 2px solid green;
 }
 .love{
-  height:200px;
-  width:150px;
+  height:100px;
+  width:70px;
 
+}
+
+.dislike{
+  height:100px;
+  width:50;
 }
 .fave{
   display: inline-block;
@@ -102,16 +111,23 @@ option{
   position:absolute;
    top:100px;
    right:50px;
+   margin-left:20px;
 }
 
 .like{
+  background-color: rgba(0,0,0,.5);
+  display: inline-block;
   float:left;
   border: 2px solid black;
-  margin: 10px;
   padding: 10px;
   margin-top: 20px;
+  align-self: center;
+  color: white;
+  margin-left: 300px;
 }
-
+.dont{
+  margin-left: 10px;
+}
 .rating{
     padding: 10px;
     color: white;
@@ -220,6 +236,10 @@ ul{
   background-color: rgba(0,0,0,.5);
   display: inline block;
   margin-top: 100px;
+}
+
+.insert{
+  color:white;
 }
 /*.title{
   display: inline-block;
