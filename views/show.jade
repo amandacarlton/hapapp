@@ -46,7 +46,7 @@ block content
     input(type="time" id="etime" name="etime")
     div
      input(type="submit" value="submit")
- if(user)
+ if(user !== null)
     div.fave
      form(action="/opinion" method="post")
        label(for="love")

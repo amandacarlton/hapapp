@@ -50,6 +50,7 @@ router.get('/bars/:id', function(req,res,next){
   hhCollection.findOne({_id:req.params.id}, function(err,bar){
     var name= req.cookies.currentuser;
     userCollection.findOne({firstname:name}, function(err, user){
+    console.log(user);
     res.render('show',{bar:bar, user:user, title:bar.name, api:process.env.google_Key});
   });
 });
