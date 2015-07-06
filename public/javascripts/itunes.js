@@ -34,3 +34,19 @@ console.log(responseData);
  //-    input(type="hidden" name="username" value=user.firstname)
  //-    p
  //-    input(type="submit" value="bar opinion")
+
+ //- div.insert
+ //-   form(action="/bars/"+ bar._id, method="post")
+ //-    div
+ //-     label(for="hhurl") URL:
+ //-     input(type="text" name="hhurl" id="hhurl")
+ //-    div
+ //-     label(for="hhmenu") Descript
+ //-     textarea(id="hhmenu" name="hhmenu")
+ //-    div
+ //-    label(for="stime") start
+ //-    input(type="time" id="stime" name="stime")
+ //-    label(for="etime") end
+ //-    input(type="time" id="etime" name="etime")
+ //-    div
+ //-     input(type="submit" value="submit")

@@ -49,9 +49,7 @@ router.get('/', function(req, res, next){
 router.get('/bars/:id', function(req,res,next){
   hhCollection.findOne({_id:req.params.id}, function(err,bar){
     var name= req.cookies.currentuser;
-    console.log(name);
     userCollection.findOne({firstname:name}, function(err, user){
-    console.log(user)
     res.render('show',{bar:bar, user:user, title:bar.name, api:process.env.google_Key});
   });
 });
@@ -62,8 +60,6 @@ router.post("/bars/new", function(req, res, next){
  var rating=Number(req.body.rating);
   if(req.body.rating.length>0 && req.body.neighborhood.length>0){
     hhCollection.find({rating:rating, "location.neighborhoods":req.body.neighborhood}, function(err, bar){
-      console.log(bar);
-      console.log(rating);
       res.render("new",{bar:bar, rating:rating, neighborhood:req.body.neighborhood});
 
     });
@@ -84,7 +80,9 @@ router.post("/bars/new", function(req, res, next){
 });
 
 router.post('/bars/:id', function(req, res, next) {
-  hhCollection.insert({_id: req.params.id},{ hhurl: req.body.hhurl, hhmenu: req.body.hhmenu , start: req.body.stime, end: req.body.etime},function(err,bar){
+  console.log(req.body.stime);
+  hhCollection.update({_id: req.params.id},{'$set':{ hhurl: req.body.hhurl, hhmenu: req.body.hhmenu , start: req.body.stime, end: req.body.etime}},function(err,bar){
+    //console.log(bar);
     res.redirect('/bars/'+ req.params.id);
 
   });
@@ -120,7 +118,6 @@ router.get('/login', function(req, res, next){
   if(req.cookies.currentuser){
     var name= req.cookies.currentuser;
   favCollection.find({username:name}, function(err, data){
-    console.log(data);
     res.render("login", {name:name, opinion:data});
   });
   }else if(req.cookies.currentuser === "undefined"){
@@ -155,9 +152,7 @@ router.post('/login', function(req, res, next){
 router.post("/itunes/:id", function(req, res, next){
   hhCollection.findOne({_id:req.params.id}, function(err,bar){
     var name= req.cookies.currentuser;
-    console.log(name);
     userCollection.findOne({firstname:name}, function(err, user){
-      console.log(user);
       unirest.post('https://itunes.apple.com/search?term='+req.body.music+'&limit='+req.body.limit)
       .end(function (response) {
         var data= JSON.parse(response.body);
@@ -179,13 +174,10 @@ router.post("/vote/:id", function(req, res, next){
         var data= JSON.parse(response.body);
         itunesCollection.insert({ username: req.body.name, userid: req.body.userid, bar: req.body.barname, date: req.body.date, trackName: req.body.trackName});
         itunesCollection.find({bar:req.body.barname, date:req.body.date}, function(err, data){
-          console.log(data);
           var result = {};
           for(var i=0; i<data.length; i++) {
             result[data[i].trackName] = result[data[i].trackName] || 0;
             result[data[i].trackName] += 1;
-            console.log(result);
-            console.log(data.length);
           }
           res.render('show', {vote:result, response:data.results, bar:bar, title:bar.name, user:user, api:process.env.google_Key});
         });
@@ -201,10 +193,8 @@ router.post("/logout", function(req, res, next){
 
 router.post("/opinion", function(req, res, next){
   var name= req.cookies.currentuser;
-  console.log(name);
   userCollection.findOne({firstname:name}, function(err, user){
-    console.log(user);
-    favCollection.insert({user:req.body.userid, username:req.body.username, bar:req.body.barname, like:req.body.love, dislike:req.body.dislike});
+    favCollection.insert({user:req.body.userid, username:req.body.username, bar:req.body.barname, like:req.body.love});
     res.redirect("/login");
   });
 });

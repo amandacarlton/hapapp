@@ -96,22 +96,19 @@ option{
     border: 2px solid green;
 }
 .love{
-  height:100px;
-  width:70px;
+  height:70px;
+  width:40px;
 
 }
 
 .dislike{
-  height:100px;
-  width:50;
+  height:70px;
+  width:40;
 }
 .fave{
   display: inline-block;
-  padding:20px;
-  position:absolute;
-   top:100px;
-   right:50px;
-   margin-left:20px;
+  float: left;
+
 }
 
 .like{
@@ -190,7 +187,7 @@ a:hover{
 .info{
   background-color: rgba(0,0,0,.5);
   color: white;
-  width: 450px
+  width: 350px;
 }
 
 .map{

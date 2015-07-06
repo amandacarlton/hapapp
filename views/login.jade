@@ -48,10 +48,10 @@ block content
       div.like
         h1 Favorite Bars
         for item in opinion
-         if(item.like == "on")
+         if(item.like === "like")
             p= item.bar
       div.like.dont
         h1 Stay Away From
         for item in opinion
-         if(item.dislike=="on")
+         if(item.like==="dislike")
            p= item.bar
