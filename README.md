@@ -8,4 +8,6 @@ Upon login a user can like or dislike a bar (which will be displayed on their lo
 
 heroku - https://shrouded-forest-2598.herokuapp.com/
 
-git hub- https://github.com/amandacarlton/hapapp
+git hub - https://github.com/amandacarlton/hapapp
+
+youtube - https://youtu.be/vZk6ZUVIvR0
